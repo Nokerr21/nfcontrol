@@ -32,7 +32,7 @@ export default function WebApp(){
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
-            await ndef.write("What Web Can Do Today");
+            await ndef.write("Witam tu tag zapisany ze strony nfc-web-app! :)))))");
             consoleLog("NDEF message written!");
           } catch(error) {
             consoleLog(error);
@@ -87,9 +87,12 @@ export default function WebApp(){
                 <label>READ NFC</label>
                 <button onClick={() => readTag()} className="btn">READ</button>
                 <pre id="log"></pre>
-                <TextBoxContent />
             </div>
-            
+            <div className="form-row">
+                <label>WRITE TO NFC</label>
+                <button onClick={() => writeTag()} className="btn">WRITE</button>
+                <pre id="log"></pre>
+            </div>
         </form>
         </>
     )
