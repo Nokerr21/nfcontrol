@@ -18,18 +18,16 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-          const abortController = new AbortController();
           try {
-            await ndef.scan({signal: abortController.signal});
+            await ndef.scan();
             ndef.onreading = event => {
-              const decoder = new TextDecoder({signal: abortController.signal});
+              const decoder = new TextDecoder();
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
               }
             }
-            consoleLog("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
           } catch(error) {
             consoleLog(error);
           }
@@ -74,7 +72,6 @@ export default function WebApp(){
             <div className="form-row">
                 <label>READ NFC</label>
                 <button onClick={() => readTag()} className="btn">READ</button>
-                <button id="btnStop" className="btn">STOP</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
