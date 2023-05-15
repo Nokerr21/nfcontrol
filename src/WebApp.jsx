@@ -13,11 +13,13 @@ export default function WebApp(){
           const ndef = new NDEFReader();
           try {
             await ndef.scan();
-            const decoder = new TextDecoder();
-            for (const record of ndef.onreading.message.records) {
+            ndef.onreading = event => {
+              const decoder = new TextDecoder();
+              for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
+              }
             }
           } catch(error) {
             consoleLog(error);
