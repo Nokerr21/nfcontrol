@@ -3,9 +3,6 @@ import { useEffect, useState } from "react"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
-  const abortController = new AbortController();
-  abortController.signal.onabort = event => {
-  }
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -17,7 +14,6 @@ export default function WebApp(){
           const ndef = new NDEFReader();
           try {
             await ndef.scan();
-            ndef.abort();
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
@@ -26,6 +22,7 @@ export default function WebApp(){
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
                 
               }
+              ndef.abort();
             }
           } catch(error) {
             consoleLog(error);
@@ -38,11 +35,11 @@ export default function WebApp(){
       async function writeTag(message) {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-          ndef.abort();
+          
           try {
             await ndef.write(message);
             consoleLog("NDEF message written!");
-            abortController.abort();
+            ndef.abort();
           } catch(error) {
             consoleLog(error);
           }
