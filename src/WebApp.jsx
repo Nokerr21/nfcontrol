@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
+  const abortController = new AbortController();
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -12,16 +13,16 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-          const abortController = new AbortController();
           try {
             await ndef.scan();
+            abortController.abort();
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
-                abortController.abort();
+                
               }
             }
           } catch(error) {
@@ -35,7 +36,7 @@ export default function WebApp(){
       async function writeTag(message) {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-          const abortController = new AbortController();
+          abortController.abort();
           try {
             await ndef.write(message);
             consoleLog("NDEF message written!");
