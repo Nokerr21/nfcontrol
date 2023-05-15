@@ -18,7 +18,6 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-          const abortController = new AbortController();
           try {
             await ndef.scan({signal: abortController.signal});
             ndef.onreading = event => {
