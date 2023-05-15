@@ -10,7 +10,8 @@ export default function WebApp(){
     }
 
     async function readTag() {
-        if ("NDEFReader" in window) {
+      temp = 0;
+        if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
             await ndef.scan();
@@ -20,10 +21,9 @@ export default function WebApp(){
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
-                
               }
-              ndef.abort();
             }
+            temp ++;
           } catch(error) {
             consoleLog(error);
           }
@@ -33,13 +33,13 @@ export default function WebApp(){
       }
       
       async function writeTag(message) {
-        if ("NDEFReader" in window) {
+        temp = 0
+        if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
-          
           try {
             await ndef.write(message);
             consoleLog("NDEF message written!");
-            ndef.abort();
+            temp ++
           } catch(error) {
             consoleLog(error);
           }
