@@ -26,7 +26,6 @@ export default function WebApp(){
             }
           } catch(error) {
             consoleLog(error);
-            abortController.abort();
           }
         } else {
           consoleLog("Web NFC is not supported.");
@@ -43,7 +42,6 @@ export default function WebApp(){
             abortController.abort();
           } catch(error) {
             consoleLog(error);
-            abortController.abort();
           }
         } else {
           consoleLog("Web NFC is not supported.");
