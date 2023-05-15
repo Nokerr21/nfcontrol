@@ -29,6 +29,7 @@ export default function WebApp(){
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
               }
             }
+            consoleLog("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
           } catch(error) {
             consoleLog(error);
           }
