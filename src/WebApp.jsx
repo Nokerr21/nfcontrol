@@ -15,8 +15,8 @@ export default function WebApp(){
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
-                consoleLog("Record type:  " + record.recordType);
-                consoleLog("MIME type:    " + record.mediaType);
+                //consoleLog("Record type:  " + record.recordType);
+                //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("=== data ===\n" + decoder.decode(record.data));
               }
             }
@@ -28,11 +28,11 @@ export default function WebApp(){
         }
       }
       
-      async function writeTag() {
+      async function writeTag(message) {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
-            await ndef.write("Witam tu tag zapisany ze strony nfc-web-app! :)))))");
+            await ndef.write(message);
             consoleLog("NDEF message written!");
           } catch(error) {
             consoleLog(error);
@@ -90,7 +90,13 @@ export default function WebApp(){
             </div>
             <div className="form-row">
                 <label>WRITE TO NFC</label>
-                <button onClick={() => writeTag()} className="btn">WRITE</button>
+                <input
+                value={message}
+                onChange={e => writeTag(e.target.value)}
+                type="text"
+                id="item"
+                />
+                <button onClick={() => writeTag(message)} className="btn">WRITE</button>
                 <pre id="log"></pre>
             </div>
         </form>
