@@ -31,13 +31,11 @@ export default function WebApp(){
       }
       
       async function writeTag(message) {
-        var temp = 0;
-        if ("NDEFReader" in window && temp === 0) {
+        if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
             await ndef.write(message);
-            consoleLogWrite("NDEF message written!");
-            temp + 1;
+            consoleLogWrite("NDEF message:" + message + "written!");
           } catch(error) {
             consoleLogWrite(error);
           }
