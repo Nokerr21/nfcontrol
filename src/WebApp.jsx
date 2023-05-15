@@ -4,8 +4,6 @@ import { useEffect, useState } from "react"
 export default function WebApp(){
   const [message, setMessage] = useState("")
 
-  const abortController = new AbortController();
-
    // async function stopRead(e){
    //   abortController.signal.onabort = e => {};
    //   document.getElementById('btnStop').onclick = e => {
@@ -20,6 +18,7 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
+          const abortController = new AbortController();
           try {
             await ndef.scan({signal: abortController.signal});
             ndef.onreading = event => {
