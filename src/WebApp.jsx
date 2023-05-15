@@ -10,12 +10,12 @@ export default function WebApp(){
         setMessage("")
     }
 
-    async function readTag() {
+    function readTag() {
       var temp = 0;
         if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
-            await ndef.scan();
+            ndef.scan();
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
@@ -33,12 +33,12 @@ export default function WebApp(){
         }
       }
       
-      async function writeTag(message) {
+      function writeTag(message) {
         var temp = 0;
         if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
-            await ndef.write(message);
+            ndef.write(message);
             consoleLog("NDEF message written!");
             temp + 1;
           } catch(error) {
