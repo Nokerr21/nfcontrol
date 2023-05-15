@@ -7,7 +7,7 @@ export default function WebApp(){
   const abortController = new AbortController();
   
 
-    async function stopRead(){
+    function stopRead(){
       abortController.signal.onabort = e => {};
       document.getElementById('btnStop').onclick = e => {
       abortController.abort();
