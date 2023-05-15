@@ -22,7 +22,7 @@ export default function WebApp(){
           try {
             await ndef.scan({signal: abortController.signal});
             ndef.onreading = event => {
-              const decoder = new TextDecoder();
+              const decoder = new TextDecoder({signal: abortController.signal});
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
