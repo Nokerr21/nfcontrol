@@ -2,9 +2,11 @@ import "./styles.css"
 import { useEffect, useState } from "react"
 
 export default function WebApp(){
+  const [message, setMessage] = useState("")
 
     function handleSubmit(e) {
         e.preventDefault()
+        
     }
 
     async function readTag() {
@@ -16,7 +18,7 @@ export default function WebApp(){
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
-                //consoleLog("MIME type:    " + record.mediaType);
+                consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("=== data ===\n" + decoder.decode(record.data));
               }
             }
@@ -92,9 +94,9 @@ export default function WebApp(){
                 <label>WRITE TO NFC</label>
                 <input
                 value={message}
-                onChange={e => writeTag(e.target.value)}
+                onChange={(e) => setMessage(e.target.value)}
                 type="text"
-                id="item"
+                id="message"
                 />
                 <button onClick={() => writeTag(message)} className="btn">WRITE</button>
                 <pre id="log"></pre>
