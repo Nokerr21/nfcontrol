@@ -12,6 +12,7 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
+          const abortController = new AbortController();
           try {
             await ndef.scan();
             ndef.onreading = event => {
@@ -20,10 +21,13 @@ export default function WebApp(){
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
+                abortController.abort();
               }
+              abortController.abort();
             }
           } catch(error) {
             consoleLog(error);
+            abortController.abort();
           }
         } else {
           consoleLog("Web NFC is not supported.");
@@ -35,7 +39,7 @@ export default function WebApp(){
           const ndef = new NDEFReader();
           try {
             await ndef.write(message);
-            consoleLogWrite("NDEF message:" + message + "written!");
+            consoleLogWrite("Message: '" + message + "' written!");
           } catch(error) {
             consoleLogWrite(error);
           }
