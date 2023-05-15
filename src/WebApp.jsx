@@ -3,16 +3,7 @@ import { useEffect, useState } from "react"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
-
   const abortController = new AbortController();
-  
-
-    function stopRead(){
-      abortController.signal.onabort = e => {};
-      document.getElementById('btnStop').onclick = e => {
-      abortController.abort();
-      };
-    }
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -42,6 +33,11 @@ export default function WebApp(){
       async function writeTag(message) {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
+          abortController.signal.onabort = e => {};
+          document.getElementById('btnStop').onclick = e => {
+            abortController.abort();
+          };
+          
           try {
             await ndef.write(message);
             consoleLogWrite("Message: '" + message + "' written!");
