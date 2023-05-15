@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
+  var temp = 0;
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -10,7 +11,7 @@ export default function WebApp(){
     }
 
     async function readTag() {
-      temp = 0;
+      var temp = 0;
         if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
@@ -23,7 +24,7 @@ export default function WebApp(){
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
               }
             }
-            temp ++;
+            temp + 1;
           } catch(error) {
             consoleLog(error);
           }
@@ -33,13 +34,13 @@ export default function WebApp(){
       }
       
       async function writeTag(message) {
-        temp = 0
+        var temp = 0;
         if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
             await ndef.write(message);
             consoleLog("NDEF message written!");
-            temp ++
+            temp + 1;
           } catch(error) {
             consoleLog(error);
           }
