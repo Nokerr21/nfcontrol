@@ -6,24 +6,27 @@ export default function WebApp(){
 
     function handleSubmit(e) {
         e.preventDefault()
-        
+        setMessage("")
     }
 
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
+          const abortController = new AbortController();
           try {
             await ndef.scan();
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
-                consoleLog("MIME type:    " + record.mediaType);
-                consoleLog("=== data ===\n" + decoder.decode(record.data));
+                //consoleLog("MIME type:    " + record.mediaType);
+                consoleLog("---- data ----\n" + decoder.decode(record.data));
+                abortController.abort();
               }
             }
           } catch(error) {
             consoleLog(error);
+            abortController.abort();
           }
         } else {
           consoleLog("Web NFC is not supported.");
@@ -33,11 +36,14 @@ export default function WebApp(){
       async function writeTag(message) {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
+          const abortController = new AbortController();
           try {
             await ndef.write(message);
             consoleLog("NDEF message written!");
+            abortController.abort();
           } catch(error) {
             consoleLog(error);
+            abortController.abort();
           }
         } else {
           consoleLog("Web NFC is not supported.");
@@ -50,37 +56,7 @@ export default function WebApp(){
         logElement.innerHTML += data + '\n';
       }
 
-    function TextBoxContent() {
-        // JSON obj from https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON#arrays_as_json
-        const exampleJSON = [
-          {
-            name: "Molecule Man",
-            age: 29,
-            secretIdentity: "Dan Jukes",
-            powers: ["Radiation resistance", "Turning tiny", "Radiation blast"]
-          },
-          {
-            name: "Madame Uppercut",
-            age: 39,
-            secretIdentity: "Jane Wilson",
-            powers: [
-              "Million tonne punch",
-              "Damage resistance",
-              "Superhuman reflexes"
-            ]
-          }
-        ];
-      
-        const parseJsonIntoConsoleStr = (item, index) => {
-          return (
-            <p key={index}>
-              {item.name}'s true identity is {item.secretIdentity}
-            </p>
-          );
-        };
-      
-        return exampleJSON.map(parseJsonIntoConsoleStr);
-      }
+    
     
     return (
         <>
@@ -115,6 +91,38 @@ export default function WebApp(){
         localStorage.setItem("ITEMS", JSON.stringify(nfcs))
       }, [nfcs])
     
+
+      function TextBoxContent() {
+        // JSON obj from https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON#arrays_as_json
+        const exampleJSON = [
+          {
+            name: "Molecule Man",
+            age: 29,
+            secretIdentity: "Dan Jukes",
+            powers: ["Radiation resistance", "Turning tiny", "Radiation blast"]
+          },
+          {
+            name: "Madame Uppercut",
+            age: 39,
+            secretIdentity: "Jane Wilson",
+            powers: [
+              "Million tonne punch",
+              "Damage resistance",
+              "Superhuman reflexes"
+            ]
+          }
+        ];
+      
+        const parseJsonIntoConsoleStr = (item, index) => {
+          return (
+            <p key={index}>
+              {item.name}'s true identity is {item.secretIdentity}
+            </p>
+          );
+        };
+      
+        return exampleJSON.map(parseJsonIntoConsoleStr);
+      }
       
     
     
