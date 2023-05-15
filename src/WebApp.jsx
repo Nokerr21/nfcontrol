@@ -4,6 +4,18 @@ import { useEffect, useState } from "react"
 export default function WebApp(){
   const [message, setMessage] = useState("")
 
+  const abortController = new AbortController();
+  
+
+
+    async function stopRead(){
+      abortController.signal.onabort = e => {
+        readTag();
+      };
+      document.querySelector('btnStop').onclick = e => {
+      abortController.abort();
+      };
+    }
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -12,13 +24,6 @@ export default function WebApp(){
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
-
-          const abortController = new AbortController();
-          abortController.signal.onabort = e => {};
-          document.querySelector('btnStop').onclick = e => {
-            abortController.abort();
-          };
-
           try {
             await ndef.scan({signal: abortController.signal});
             ndef.onreading = event => {
@@ -73,7 +78,7 @@ export default function WebApp(){
             <div className="form-row">
                 <label>READ NFC</label>
                 <button onClick={() => readTag()} className="btn">READ</button>
-                <button id="btnStop" className="btn">STOP</button>
+                <button onClick={() => stopRead()} id="btnStop" className="btn">STOP</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
