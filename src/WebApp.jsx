@@ -3,19 +3,17 @@ import { useEffect, useState } from "react"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
-  var temp = 0;
 
     function handleSubmit(e) {
         e.preventDefault()
         setMessage("")
     }
 
-    function readTag() {
-      var temp = 0;
-        if ("NDEFReader" in window && temp === 0) {
+    async function readTag() {
+        if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
-            ndef.scan();
+            await ndef.scan();
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
@@ -24,7 +22,6 @@ export default function WebApp(){
                 consoleLog("---- data ----\n" + decoder.decode(record.data));
               }
             }
-            temp + 1;
           } catch(error) {
             consoleLog(error);
           }
@@ -33,24 +30,30 @@ export default function WebApp(){
         }
       }
       
-      function writeTag(message) {
+      async function writeTag(message) {
         var temp = 0;
         if ("NDEFReader" in window && temp === 0) {
           const ndef = new NDEFReader();
           try {
-            ndef.write(message);
-            consoleLog("NDEF message written!");
+            await ndef.write(message);
+            consoleLogWrite("NDEF message written!");
             temp + 1;
           } catch(error) {
-            consoleLog(error);
+            consoleLogWrite(error);
           }
         } else {
-          consoleLog("Web NFC is not supported.");
+          consoleLogWrite("Web NFC is not supported.");
         }
       }
       
       function consoleLog(data) {
         var logElement = document.getElementById('log');
+        logElement.innerHTML = ""
+        logElement.innerHTML += data + '\n';
+      }
+
+      function consoleLogWrite(data) {
+        var logElement = document.getElementById('logWrite');
         logElement.innerHTML = ""
         logElement.innerHTML += data + '\n';
       }
@@ -74,7 +77,7 @@ export default function WebApp(){
                 id="message"
                 />
                 <button onClick={() => writeTag(message)} className="btn">WRITE</button>
-                <pre id="log"></pre>
+                <pre id="logWrite"></pre>
             </div>
         </form>
         </>
