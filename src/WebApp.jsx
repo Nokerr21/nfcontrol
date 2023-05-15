@@ -6,7 +6,6 @@ export default function WebApp(){
 
     function handleSubmit(e) {
         e.preventDefault()
-        setMessage("")
     }
 
     async function readTag() {
@@ -40,8 +39,10 @@ export default function WebApp(){
           try {
             await ndef.write(message);
             consoleLogWrite("Message: '" + message + "' written!");
+            setMessage("")
           } catch(error) {
             consoleLogWrite(error);
+            setMessage("")
           }
         } else {
           consoleLogWrite("Web NFC is not supported.");
