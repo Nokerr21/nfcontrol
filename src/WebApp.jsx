@@ -27,7 +27,7 @@ export default function WebApp(){
         console.log(`Scan result: ${decodedText}`, decodedResult);
         setScanResult(decodedText);
         setScanTime(dateTime)
-        consoleLogQR("Message: '" + decodedText + "' decoded! at: " + dateTime);
+        consoleLogQR("Message: '" + decodedText + "' decoded! \n TimeStamp: " + dateTime);
         // ...
         html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
@@ -64,7 +64,7 @@ export default function WebApp(){
                 var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
                 var dateTime = date+' '+time;
-                consoleLog("---- data ----\n" + decoder.decode(record.data) + "\n" + dateTime);
+                consoleLog("---- data ----\n" + decoder.decode(record.data) + "\n" + "TimeStamp: " + dateTime);
               }
             }
           } catch(error) {
@@ -80,7 +80,11 @@ export default function WebApp(){
           const ndef = new NDEFReader();
           try {
             await ndef.write(message);
-            consoleLogWrite("Message: '" + message + "' written!");
+            var today = new Date();
+            var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+            var dateTime = date+' '+time;
+            consoleLogWrite("Message: '" + message + "' written!" + "\n TimeStamp: " + dateTime);
             setMessage("")
           } catch(error) {
             consoleLogWrite(error);
