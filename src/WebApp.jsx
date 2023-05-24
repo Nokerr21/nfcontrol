@@ -1,8 +1,32 @@
 import "./styles.css"
 import { useEffect, useState } from "react"
+import { Html5QrcodeScanner } from "html5-qrcode"
+
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
+  const [scanResult, setScanResult] = useState(null)
+
+  useEffect(() => {
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "reader1", { fps: 10, qrbox: 250 });
+
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+          
+    function onScanSuccess(decodedText, decodedResult) {
+        // Handle on success condition with the decoded text or result.
+        console.log(`Scan result: ${decodedText}`, decodedResult);
+        setScanResult(decodedText);
+        consoleLogQR("Message: '" + decodedText + "' decoded!");
+        // ...
+        html5QrcodeScanner.clear();
+        // ^ this will stop the scanner (video feed) and clear the scan area.
+    }
+
+    function onScanError(err){
+      console.warn(err)
+    }
+  })
 
    // async function stopRead(e){
    //   abortController.signal.onabort = e => {};
@@ -14,6 +38,7 @@ export default function WebApp(){
     function handleSubmit(e) {
         e.preventDefault()
     }
+
 
     async function readTag() {
         if ("NDEFReader" in window) {
@@ -64,6 +89,12 @@ export default function WebApp(){
         logElement.innerHTML += data + '\n';
       }
 
+      function consoleLogQR(data) {
+        var logElement = document.getElementById('logQR');
+        logElement.innerHTML = ""
+        logElement.innerHTML += data + '\n';
+      }
+
     
     
     return (
@@ -84,6 +115,17 @@ export default function WebApp(){
                 />
                 <button onClick={() => writeTag(message)} className="btn">WRITE</button>
                 <pre id="logWrite"></pre>
+            </div>
+            <div className="form-row">
+              <label>READ QR CODE</label>
+              
+              <div id="reader1"></div>
+
+              <pre id="logQR"></pre>
+
+              <button onClick={() => writeTag({scanResult})} className="btn">WRITE TO NFC</button>
+              <pre id="logWrite"></pre>
+              
             </div>
         </form>
         </>
