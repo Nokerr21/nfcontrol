@@ -118,14 +118,9 @@ export default function WebApp(){
             </div>
             <div className="form-row">
               <label>READ QR CODE</label>
-              
               <div id="reader1"></div>
-
               <pre id="logQR"></pre>
-
               <button onClick={() => writeTag(scanResult)} className="btn">WRITE TO NFC</button>
-              <pre id="logWrite"></pre>
-              
             </div>
         </form>
         </>
