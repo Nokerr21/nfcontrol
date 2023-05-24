@@ -16,6 +16,7 @@ export default function WebApp(){
       "reader1", { fps: 5, qrbox: 250 });
 
     html5QrcodeScanner.render(onScanSuccess, onScanError);
+    html5QrcodeScanner.clear();
 
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -27,7 +28,7 @@ export default function WebApp(){
         console.log(`Scan result: ${decodedText}`, decodedResult);
         setScanResult(decodedText);
         setScanTime(dateTime)
-        consoleLogQR("Message: '" + decodedText + "' decoded! \n  TimeStamp: " + dateTime);
+        consoleLogQR("Message: '" + decodedText + "' decoded! \nTimeStamp: " + dateTime);
         // ...
         html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
@@ -84,7 +85,7 @@ export default function WebApp(){
             var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
             var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
             var dateTime = date+' '+time;
-            consoleLogWrite("Message: '" + message + "' written!" + "\n TimeStamp: " + dateTime);
+            consoleLogWrite("Message: '" + message + "' written!" + "\nTimeStamp: " + dateTime);
             setMessage("")
           } catch(error) {
             consoleLogWrite(error);
