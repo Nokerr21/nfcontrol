@@ -123,7 +123,7 @@ export default function WebApp(){
 
               <pre id="logQR"></pre>
 
-              <button onClick={() => writeTag({scanResult})} className="btn">WRITE TO NFC</button>
+              <button onClick={() => writeTag(scanResult)} className="btn">WRITE TO NFC</button>
               <pre id="logWrite"></pre>
               
             </div>
