@@ -6,18 +6,28 @@ import { Html5QrcodeScanner } from "html5-qrcode"
 export default function WebApp(){
   const [message, setMessage] = useState("")
   const [scanResult, setScanResult] = useState("")
+  const [scanTime, setScanTime] = useState("")
+
+  
+ 
 
   useEffect(() => {
     const html5QrcodeScanner = new Html5QrcodeScanner(
-      "reader1", { fps: 10, qrbox: 250 });
+      "reader1", { fps: 5, qrbox: 250 });
 
     html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+    var dateTime = date+' '+time;
           
     function onScanSuccess(decodedText, decodedResult) {
         // Handle on success condition with the decoded text or result.
         console.log(`Scan result: ${decodedText}`, decodedResult);
         setScanResult(decodedText);
-        consoleLogQR("Message: '" + decodedText + "' decoded!");
+        setScanTime(dateTime)
+        consoleLogQR("Message: '" + decodedText + "' decoded! at: " + dateTime);
         // ...
         html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
@@ -26,7 +36,7 @@ export default function WebApp(){
     function onScanError(err){
       console.warn(err)
     }
-  })
+  }, [scanTime])
 
    // async function stopRead(e){
    //   abortController.signal.onabort = e => {};
@@ -50,7 +60,11 @@ export default function WebApp(){
               for (const record of event.message.records) {
                 //consoleLog("Record type:  " + record.recordType);
                 //consoleLog("MIME type:    " + record.mediaType);
-                consoleLog("---- data ----\n" + decoder.decode(record.data));
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+                var dateTime = date+' '+time;
+                consoleLog("---- data ----\n" + decoder.decode(record.data) + "\n" + dateTime);
               }
             }
           } catch(error) {
