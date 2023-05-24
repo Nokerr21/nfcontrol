@@ -5,7 +5,7 @@ import { Html5QrcodeScanner } from "html5-qrcode"
 
 export default function WebApp(){
   const [message, setMessage] = useState("")
-  const [scanResult, setScanResult] = useState(null)
+  const [scanResult, setScanResult] = useState("")
 
   useEffect(() => {
     const html5QrcodeScanner = new Html5QrcodeScanner(
