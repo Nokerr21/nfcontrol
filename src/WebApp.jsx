@@ -29,7 +29,6 @@ export default function WebApp(){
         setScanResult(decodedText);
         setScanTime(dateTime)
         consoleLogQR("Message: '" + decodedText + "' decoded! \nTimeStamp: " + dateTime);
-        // ...
         html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
     }
