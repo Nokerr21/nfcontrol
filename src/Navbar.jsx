@@ -4,12 +4,12 @@ import "./styles.css"
 export default function Navbar(){
     return (
         <nav className="nav">
-            <Link to="/" className="site-title">
+            <Link to="/nfc-web-app/" className="site-title">
                 NFCONTROL
             </Link>
             <ul>
-                <CustomLink to="/worker">Worker</CustomLink>
-                <CustomLink to="/user">User</CustomLink >
+                <CustomLink to="/nfc-web-app/worker">Worker</CustomLink>
+                <CustomLink to="/nfc-web-app/user">User</CustomLink >
             </ul>
     </nav>
     )

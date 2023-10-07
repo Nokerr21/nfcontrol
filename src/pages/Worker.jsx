@@ -120,7 +120,6 @@ export default function Worker(){
                 <button onClick={() => readTag()} className="btn">READ</button>
                 <pre id="log"></pre>
             </div>
-           
             <div className="form-row">
               <label>READ QR CODE</label>
               <div id="readerQR"></div>
