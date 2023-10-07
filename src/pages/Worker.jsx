@@ -1,14 +1,12 @@
 import "./styles.css"
 import { useEffect, useState } from "react"
 import { Html5QrcodeScanner } from "html5-qrcode"
-import Navbar from "./Navbar"
-import { Route, Routes } from "react-router-dom"
-import User from "./pages/User"
-import Worker from "./pages/Worker"
-import Home from "./pages/Home"
 
 
-export default function WebApp(){
+
+
+
+export default function Worker(){
   const [message, setMessage] = useState("")
   const [scanResult, setScanResult] = useState("")
   const [scanTime, setScanTime] = useState("")
@@ -16,7 +14,34 @@ export default function WebApp(){
   
  
 
-  
+  useEffect(() => {
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      "readerQR", { fps: 5, qrbox: 250 });
+
+    html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + ":" + today.getMilliseconds();
+    var dateTime = date+' '+time;
+          
+    function onScanSuccess(decodedText, decodedResult) {
+        // Handle on success condition with the decoded text or result.
+        console.log(`Scan result: ${decodedText}`, decodedResult);
+        setScanResult(decodedText);
+        setScanTime(dateTime)
+        consoleLogQR("Message: '" + decodedText + "' decoded!" + "\n" + "TimeStamp: " + dateTime);
+        // ...
+        html5QrcodeScanner.clear();
+        // ^ this will stop the scanner (video feed) and clear the scan area.
+    }
+
+    function onScanError(err){
+      console.warn(err)
+    }
+  }, [scanTime])
+
+
     function handleSubmit(e) {
         e.preventDefault()
     }
@@ -89,67 +114,21 @@ export default function WebApp(){
     
     return (
         <>
-   
-            <div>
-                <Navbar/>
-            </div>
-            <div className="container">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/worker" element={<Worker />} />
-                    <Route path="/user" element={<User />} />
-                </Routes>
+        <form onSubmit={handleSubmit} className="new-item-form">
+            <div className="form-row">
+                <label>READ NFC</label>
+                <button onClick={() => readTag()} className="btn">READ</button>
+                <pre id="log"></pre>
             </div>
            
-       
-          
-      
+            <div className="form-row">
+              <label>READ QR CODE</label>
+              <div id="readerQR"></div>
+              <pre id="logQR"></pre>
+              <button onClick={() => writeTag(scanResult)} className="btn">WRITE TO NFC</button>
+              <pre id="logWrite"></pre>
+            </div>
+        </form>
         </>
     )
-
-    const [nfcs, setNfc] = useState(() => {
-        const localValue = localStorage.getItem("ITEMS")  // to read data from local storage
-        if (localValue == null ) return []
-        return JSON.parse(localValue)
-      })
-    
-      useEffect(() => {  // to store data in local storage
-        localStorage.setItem("ITEMS", JSON.stringify(nfcs))
-      }, [nfcs])
-    
-
-      function TextBoxContent() {
-        // JSON obj from https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON#arrays_as_json
-        const exampleJSON = [
-          {
-            name: "Molecule Man",
-            age: 29,
-            secretIdentity: "Dan Jukes",
-            powers: ["Radiation resistance", "Turning tiny", "Radiation blast"]
-          },
-          {
-            name: "Madame Uppercut",
-            age: 39,
-            secretIdentity: "Jane Wilson",
-            powers: [
-              "Million tonne punch",
-              "Damage resistance",
-              "Superhuman reflexes"
-            ]
-          }
-        ];
-      
-        const parseJsonIntoConsoleStr = (item, index) => {
-          return (
-            <p key={index}>
-              {item.name}'s true identity is {item.secretIdentity}
-            </p>
-          );
-        };
-      
-        return exampleJSON.map(parseJsonIntoConsoleStr);
-      }
-      
-    
-    
 }
