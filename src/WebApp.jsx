@@ -95,9 +95,9 @@ export default function WebApp(){
             </div>
             <div className="container">
                 <Routes>
-                    <Route path="/nfc-web-app/" element={<Home />} />
-                    <Route path="/nfc-web-app/worker" element={<Worker />} />
-                    <Route path="/nfc-web-app/user" element={<User />} />
+                    <Route path="/nfcontrol/" element={<Home />} />
+                    <Route path="/nfcontrol/worker" element={<Worker />} />
+                    <Route path="/nfcontrol/user" element={<User />} />
                 </Routes>
             </div>
            
