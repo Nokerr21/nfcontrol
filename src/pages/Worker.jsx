@@ -17,8 +17,11 @@ export default function Worker(){
   useEffect(() => {
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "readerQR", { fps: 5, qrbox: 250 });
+    html5QrcodeScanner.clear();
 
     html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+    
 
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
