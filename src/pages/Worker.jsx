@@ -17,8 +17,9 @@ export default function Worker(){
   useEffect(() => {
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "readerQR", { fps: 5, qrbox: 250 });
+    
     html5QrcodeScanner.clear();
-
+    html5QrcodeScanner.pause();  
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 
     
@@ -36,6 +37,7 @@ export default function Worker(){
         consoleLogQR("Message: '" + decodedText + "' decoded!" + "\n" + "TimeStamp: " + dateTime);
         // ...
         html5QrcodeScanner.clear();
+        html5QrcodeScanner.pause();
         // ^ this will stop the scanner (video feed) and clear the scan area.
     }
 
