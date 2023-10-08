@@ -18,11 +18,9 @@ export default function Worker(){
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "readerQR", { fps: 5, qrbox: 250 });
     
-    html5QrcodeScanner.clear();
-    html5QrcodeScanner.pause();  
+    
     html5QrcodeScanner.render(onScanSuccess, onScanError);
 
-    
 
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -36,8 +34,8 @@ export default function Worker(){
         setScanTime(dateTime)
         consoleLogQR("Message: '" + decodedText + "' decoded!" + "\n" + "TimeStamp: " + dateTime);
         // ...
-        html5QrcodeScanner.clear();
         html5QrcodeScanner.pause();
+        html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
     }
 
