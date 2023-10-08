@@ -124,7 +124,7 @@ export default function Worker(){
               <label>READ QR CODE</label>
               <div id="readerQR"></div>
               <pre id="logQR"></pre>
-              <button onClick={() => writeTag(scanResult)} className="btn">WRITE TO NFC</button>
+              <button onClick={() => writeTag(scanResult)} className="btn">WRITE QR TO NFC</button>
               <pre id="logWrite"></pre>
             </div>
         </form>

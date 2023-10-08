@@ -20,7 +20,9 @@
   .form-row {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.2rem;
+    text-align: left;
+    text-indent: 0.2rem;
   }
   
   .btn {
