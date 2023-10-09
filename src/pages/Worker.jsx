@@ -1,6 +1,6 @@
 import "./styles.css"
 import { useEffect, useState } from "react"
-import { Html5QrcodeScanner } from "html5-qrcode"
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode"
 
 
 
@@ -10,16 +10,27 @@ export default function Worker(){
   const [message, setMessage] = useState("")
   const [scanResult, setScanResult] = useState("")
   const [scanTime, setScanTime] = useState("")
+  const [scannerState, setScannerState] = useState("")
 
   
- 
+  
 
   useEffect(() => {
+
+   // Html5Qrcode.getCameras().then(devices => {
+    //  if(devices && devices.length){
+     //   var cameraId = devices[0].id;
+        
+     // }
+    //})
+
+
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "readerQR", { fps: 5, qrbox: 250 });
     
     
     html5QrcodeScanner.render(onScanSuccess, onScanError);
+    setScannerState(html5QrcodeScanner.getState());
 
 
     var today = new Date();
@@ -35,13 +46,14 @@ export default function Worker(){
         consoleLogQR("Message: '" + decodedText + "' decoded!" + "\n" + "TimeStamp: " + dateTime);
         // ...
         html5QrcodeScanner.clear();
+        
         // ^ this will stop the scanner (video feed) and clear the scan area.
     }
 
     function onScanError(err){
       console.warn(err)
     }
-  }, [scanTime])
+  }, [scannerState])
 
 
     function handleSubmit(e) {
