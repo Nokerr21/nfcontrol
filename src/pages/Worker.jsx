@@ -49,18 +49,18 @@ export default function Worker(){
     }
 
 
-    async function stopReadingTag(){
-      const ctrl = new AbortController();
-      ctrl.signal.onabort = event => {
-      }
-      ctrl.abort();
-    }
 
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
+            const ctrl = new AbortController();
+            ctrl.signal.onabort = event => {
+            };
             await ndef.scan({signal: ctrl.signal});
+            document.querySelector(".cancel").onClick = event => {
+              ctrl.abort();
+            }
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
@@ -80,6 +80,8 @@ export default function Worker(){
           consoleLog("Web NFC is not supported.");
         }
       }
+
+      
       
       async function writeTag(message) {
         if ("NDEFReader" in window) {
@@ -131,7 +133,7 @@ export default function Worker(){
             </div>
             <div className="form-row">
                 <label>STOP READING</label>
-                <button onClick={() => stopReadingTag()} className="btn">STOP READING</button>
+                <button id="cancel" onClick={() => stopReadingTag()} className="btn">STOP READING</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
