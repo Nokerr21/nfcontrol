@@ -9,9 +9,9 @@ import Home from "./pages/Home"
 export default function WebApp(){
     return (
         <>
-            
+            <div>
                 <Navbar/>
-            
+            </div>
             <div className="container">
                 <Routes>
                     <Route path="/nfcontrol/" element={<Home />} />

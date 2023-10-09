@@ -54,13 +54,13 @@ export default function Worker(){
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
-            const ctrl = new AbortController();
-            ctrl.signal.onabort = event => {
-            };
-            await ndef.scan({signal: ctrl.signal});
-            document.querySelector(".cancel").onClick = event => {
-              ctrl.abort();
-            }
+            //const ctrl = new AbortController();
+            //ctrl.signal.onabort = event => {
+            //};
+            await ndef.scan();
+            //document.querySelector("cancel").onClick = event => {
+            //  ctrl.abort();
+            //}
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
@@ -129,11 +129,6 @@ export default function Worker(){
             <div className="form-row">
                 <label>READ NFC</label>
                 <button onClick={() => readTag()} className="btn">READ</button>
-                <pre id="log"></pre>
-            </div>
-            <div className="form-row">
-                <label>STOP READING</label>
-                <button id="cancel" className="btn">STOP READING</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
