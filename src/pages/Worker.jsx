@@ -23,14 +23,18 @@ export default function Worker(){
         
      // }
     //})
-
-
     const html5QrcodeScanner = new Html5QrcodeScanner(
       "readerQR", { fps: 5, qrbox: 250 });
+    //console.log(html5QrcodeScanner.getState());
+
     
     
+   // if (html5QrcodeScanner.getState() == "NOT_STARTED"){
+   //   html5QrcodeScanner.render(onScanSuccess, onScanError);
+    //}
     html5QrcodeScanner.render(onScanSuccess, onScanError);
     setScannerState(html5QrcodeScanner.getState());
+    console.log(html5QrcodeScanner.getState());
 
 
     var today = new Date();
@@ -53,7 +57,7 @@ export default function Worker(){
     function onScanError(err){
       console.warn(err)
     }
-  }, [scannerState])
+  }, [scanTime])
 
 
     function handleSubmit(e) {
