@@ -133,7 +133,7 @@ export default function Worker(){
             </div>
             <div className="form-row">
                 <label>STOP READING</label>
-                <button id="cancel" className="cancel">STOP READING</button>
+                <button id="cancel" className="btn">STOP READING</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
