@@ -52,15 +52,15 @@ export default function Worker(){
     async function stopReadingTag(){
       const ctrl = new AbortController();
       ctrl.signal.onabort = event => {
-        readTag();
       }
+      ctrl.abort();
     }
 
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
           try {
-            await ndef.scan();
+            await ndef.scan({signal: ctrl.signal});
             ndef.onreading = event => {
               const decoder = new TextDecoder();
               for (const record of event.message.records) {
