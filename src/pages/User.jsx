@@ -33,7 +33,6 @@ export default function User(){
                 }
               }
             });
-        
           } catch(error) {
             consoleLog(error);
           }

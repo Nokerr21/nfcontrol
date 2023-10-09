@@ -49,6 +49,13 @@ export default function Worker(){
     }
 
 
+    async function stopReadingTag(){
+      const ctrl = new AbortController();
+      ctrl.signal.onabort = event => {
+        readTag();
+      }
+    }
+
     async function readTag() {
         if ("NDEFReader" in window) {
           const ndef = new NDEFReader();
@@ -120,6 +127,11 @@ export default function Worker(){
             <div className="form-row">
                 <label>READ NFC</label>
                 <button onClick={() => readTag()} className="btn">READ</button>
+                <pre id="log"></pre>
+            </div>
+            <div className="form-row">
+                <label>STOP READING</label>
+                <button onClick={() => stopReadingTag()} className="btn">STOP READING</button>
                 <pre id="log"></pre>
             </div>
             <div className="form-row">
