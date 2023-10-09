@@ -34,7 +34,6 @@ export default function Worker(){
         setScanTime(dateTime)
         consoleLogQR("Message: '" + decodedText + "' decoded!" + "\n" + "TimeStamp: " + dateTime);
         // ...
-        html5QrcodeScanner.pause();
         html5QrcodeScanner.clear();
         // ^ this will stop the scanner (video feed) and clear the scan area.
     }
